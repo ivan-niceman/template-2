@@ -1,5 +1,7 @@
 # template-2 — Туристический лендинг на Astro 5 + TypeScript
 
+🔗 **Онлайн демо (Live Demo):** [https://template-2-lac.vercel.app/](https://template-2-lac.vercel.app/)
+
 Современный статический лендинг турагентства с нулевой JS-перегрузкой (Zero-JS по умолчанию).
 
 ---
