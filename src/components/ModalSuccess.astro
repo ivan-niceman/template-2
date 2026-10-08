@@ -1,0 +1,353 @@
+---
+---
+
+<div class="form__message" id="success-modal" role="status" aria-live="polite">
+  <div class="form__message-block">
+    <h2 class="form__message-title" id="status-modal-title">Спасибо!</h2>
+    <p class="form__message-text" id="status-modal-text">
+      Спасибо, что оставили заявку, мы с радостью скоро с<br />вами свяжемся!
+    </p>
+    <button type="button" class="message-close-popup" id="success-close-btn" aria-label="Закрыть уведомление">
+      <span></span>
+      <span></span>
+    </button>
+  </div>
+</div>
+
+<style>
+  .form__message {
+    opacity: 0;
+    visibility: hidden;
+    position: fixed;
+    inset: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: rgba(0, 0, 0, 0.5);
+    cursor: pointer;
+    z-index: 250;
+    transition: opacity 0.3s ease, visibility 0.3s ease;
+  }
+
+  .form__message.form__message_active {
+    opacity: 1;
+    visibility: visible;
+  }
+
+  .form__message-block {
+    position: relative;
+    background-color: #FFFFFF;
+    max-width: 600px;
+    width: 90%;
+    margin: 0 15px;
+    padding: 50px 30px;
+    text-align: center;
+    border-radius: 8px;
+    box-shadow: 0px 20px 40px rgba(0, 0, 0, 0.2);
+    cursor: auto;
+  }
+
+  .form__message-title {
+    text-transform: uppercase;
+    font-size: 28px;
+    font-weight: 800;
+    color: var(--color-btn);
+  }
+
+  .form__message-title.is-error {
+    color: #E11D48;
+  }
+
+  .form__message-text {
+    margin-top: 25px;
+    font-size: 18px;
+    line-height: 1.5;
+    color: #333333;
+  }
+
+  .message-close-popup {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    border: none;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    background: transparent;
+  }
+
+  .message-close-popup > span {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    background-color: var(--color-btn);
+    height: 3px;
+    width: 100%;
+  }
+
+  .message-close-popup > span:first-of-type {
+    transform: rotate(45deg);
+  }
+
+  .message-close-popup > span:last-of-type {
+    transform: rotate(-45deg);
+  }
+</style>
+
+<script>
+  function initFormHandlers() {
+    const successModal = document.getElementById('success-modal');
+    const closeBtn = document.getElementById('success-close-btn');
+    const popupModal = document.getElementById('popup-modal');
+    const modalTitle = document.getElementById('status-modal-title');
+    const modalText = document.getElementById('status-modal-text');
+
+    const pageLoadTime = Date.now();
+
+    // Initialize timestamps on all forms
+    document.querySelectorAll<HTMLInputElement>('.form-timestamp').forEach((input) => {
+      input.value = String(pageLoadTime);
+    });
+
+    // Refresh timestamp on first interaction if long time has passed
+    document.querySelectorAll('form').forEach((form) => {
+      form.addEventListener('focusin', () => {
+        const tsInput = form.querySelector('.form-timestamp') as HTMLInputElement | null;
+        if (tsInput && !tsInput.dataset.touched) {
+          tsInput.dataset.touched = 'true';
+          tsInput.value = String(Date.now() - 1000); // Allow human typing time
+        }
+      }, { once: true });
+    });
+
+    function showStatus(title: string, text: string, isError = false) {
+      if (modalTitle) {
+        modalTitle.textContent = title;
+        modalTitle.classList.toggle('is-error', isError);
+      }
+      if (modalText) {
+        modalText.innerHTML = text;
+      }
+      if (popupModal) {
+        popupModal.classList.remove('form_active');
+      }
+      if (successModal) {
+        successModal.classList.add('form__message_active');
+        document.body.classList.add('body-hidden');
+      }
+      if (!isError) {
+        setTimeout(() => {
+          hideStatus();
+        }, 6000);
+      }
+    }
+
+    function hideStatus() {
+      if (successModal) {
+        successModal.classList.remove('form__message_active');
+        document.body.classList.remove('body-hidden');
+      }
+    }
+
+    closeBtn?.addEventListener('click', hideStatus);
+
+    successModal?.addEventListener('click', (e) => {
+      if (e.target === successModal) {
+        hideStatus();
+      }
+    });
+
+    // ---------------- Phone Mask & Formatting ----------------
+    function handlePhoneInput(e: Event) {
+      const input = e.target as HTMLInputElement;
+      const cursor = input.selectionStart || 0;
+      const rawValue = input.value;
+      const digits = rawValue.replace(/\D/g, '');
+
+      if (!digits) {
+        input.value = '';
+        return;
+      }
+
+      let formatted = '+7';
+      let rest = digits;
+      if (digits.startsWith('7') || digits.startsWith('8')) {
+        rest = digits.substring(1);
+      }
+
+      if (rest.length > 0) formatted += ' (' + rest.substring(0, 3);
+      if (rest.length >= 3) formatted += ') ' + rest.substring(3, 6);
+      if (rest.length >= 6) formatted += '-' + rest.substring(6, 8);
+      if (rest.length >= 8) formatted += '-' + rest.substring(8, 10);
+
+      input.value = formatted;
+    }
+
+    // ---------------- Field Validation Logic ----------------
+    function validateField(input: HTMLInputElement | HTMLTextAreaElement, showMessage = true): boolean {
+      const field = input.closest('.form-field');
+      if (!field) return true;
+      const errorEl = field.querySelector('.form-field__error');
+      const value = input.value.trim();
+      const name = input.name;
+      let error = '';
+
+      if (name === 'name') {
+        if (!value) {
+          error = 'Пожалуйста, укажите ваше имя';
+        } else if (value.length < 2) {
+          error = 'Имя должно содержать не менее 2 символов';
+        } else if (!/^[a-zA-Zа-яА-ЯёЁ\s\-]+$/.test(value)) {
+          error = 'Имя может содержать только буквы и дефис';
+        }
+      } else if (name === 'tel') {
+        const digits = value.replace(/\D/g, '');
+        if (!value) {
+          error = 'Пожалуйста, укажите номер телефона';
+        } else if (digits.length < 10) {
+          error = 'Введите полный номер телефона (не менее 10 цифр)';
+        }
+      } else if (name === 'email') {
+        const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+        if (!value) {
+          error = 'Пожалуйста, укажите адрес эл. почты';
+        } else if (!emailRegex.test(value)) {
+          error = 'Введите корректный email (например, name@mail.ru)';
+        }
+      } else if (name === 'message' && input.hasAttribute('required')) {
+        if (!value) {
+          error = 'Пожалуйста, напишите комментарий к заявке';
+        }
+      }
+
+      if (error) {
+        if (showMessage) {
+          field.classList.add('has-error');
+          if (errorEl) errorEl.textContent = error;
+          input.setAttribute('aria-invalid', 'true');
+        }
+        return false;
+      } else {
+        field.classList.remove('has-error');
+        if (errorEl) errorEl.textContent = '';
+        input.removeAttribute('aria-invalid');
+        return true;
+      }
+    }
+
+    // Attach real-time validation and formatting to form fields
+    document.querySelectorAll<HTMLFormElement>('form.lead-form, form.modal-form').forEach((form) => {
+      const inputs = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input:not([type="hidden"]), textarea');
+
+      inputs.forEach((input) => {
+        if (input.name === 'tel') {
+          input.addEventListener('input', handlePhoneInput);
+        }
+
+        // Live error clearing as user types
+        input.addEventListener('input', () => {
+          const field = input.closest('.form-field');
+          if (field?.classList.contains('has-error')) {
+            validateField(input, true);
+          }
+        });
+
+        // Validate on blur if user entered something
+        input.addEventListener('blur', () => {
+          if (input.value.trim().length > 0) {
+            validateField(input, true);
+          }
+        });
+      });
+    });
+
+    // Intercept all lead forms and submit via AJAX to /api/lead
+    document.querySelectorAll<HTMLFormElement>('form[action="/api/lead"], form.lead-form, form.modal-form').forEach((form) => {
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const inputs = form.querySelectorAll<HTMLInputElement | HTMLTextAreaElement>('input:not([type="hidden"]), textarea');
+        let isFormValid = true;
+        let firstInvalidInput: HTMLInputElement | HTMLTextAreaElement | null = null;
+
+        inputs.forEach((input) => {
+          const valid = validateField(input, true);
+          if (!valid) {
+            isFormValid = false;
+            if (!firstInvalidInput) {
+              firstInvalidInput = input;
+            }
+          }
+        });
+
+        if (!isFormValid) {
+          if (firstInvalidInput) {
+            (firstInvalidInput as HTMLElement).focus();
+          }
+          return;
+        }
+
+        const submitBtn = form.querySelector('button[type="submit"]') as HTMLButtonElement | null;
+        const originalBtnText = submitBtn ? submitBtn.textContent : '';
+
+        if (submitBtn) {
+          submitBtn.disabled = true;
+          submitBtn.textContent = 'Отправка...';
+        }
+
+        try {
+          const formData = new FormData(form);
+
+          // Ensure timestamp is present
+          if (!formData.get('_t')) {
+            formData.set('_t', String(pageLoadTime));
+          }
+
+          const response = await fetch('/api/lead', {
+            method: 'POST',
+            body: formData,
+          });
+
+          const data = await response.json().catch(() => null);
+
+          if (response.ok && (data?.success || data?.status === 'success')) {
+            form.reset();
+            // Clear any error styles
+            form.querySelectorAll('.form-field').forEach((f) => f.classList.remove('has-error'));
+            form.querySelectorAll('.form-field__error').forEach((e) => (e.textContent = ''));
+
+            // Reset timestamp for next possible submission
+            const tsInput = form.querySelector('.form-timestamp') as HTMLInputElement | null;
+            if (tsInput) tsInput.value = String(Date.now());
+
+            showStatus(
+              'Спасибо!',
+              'Спасибо, что оставили заявку! Данные успешно переданы нашему менеджеру, мы с радостью скоро с вами свяжемся.'
+            );
+          } else {
+            const errorMsg = data?.error || 'Не удалось отправить заявку. Пожалуйста, проверьте данные или свяжитесь с нами по телефону.';
+            showStatus('Ошибка', errorMsg, true);
+          }
+        } catch (err) {
+          console.error('Submission error:', err);
+          showStatus(
+            'Ошибка связи',
+            'Не удалось связаться с сервером. Пожалуйста, попробуйте позже или позвоните нам: <a href="tel:+74957773341">+7 495 777 33 41</a>.',
+            true
+          );
+        } finally {
+          if (submitBtn) {
+            submitBtn.disabled = false;
+            if (originalBtnText) submitBtn.textContent = originalBtnText;
+          }
+        }
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initFormHandlers);
+  } else {
+    initFormHandlers();
+  }
+</script>

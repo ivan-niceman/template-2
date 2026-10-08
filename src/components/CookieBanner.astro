@@ -1,0 +1,628 @@
+---
+---
+
+<aside
+  id="cookie-banner"
+  class="cookie-banner"
+  role="dialog"
+  aria-modal="false"
+  aria-live="polite"
+  aria-label="Уведомление об использовании cookie"
+  tabindex="-1"
+>
+  <div class="cookie-banner__card">
+    <div class="cookie-banner__header">
+      <div class="cookie-banner__title-row">
+        <svg
+          class="cookie-banner__icon"
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          aria-hidden="true"
+        >
+          <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5"></path>
+          <path d="M8.5 8.5v.01"></path>
+          <path d="M16 15.5v.01"></path>
+          <path d="M12 12v.01"></path>
+          <path d="M11 17v.01"></path>
+          <path d="M7 14v.01"></path>
+        </svg>
+        <h3 class="cookie-banner__title">Файлы Cookie</h3>
+      </div>
+    </div>
+
+    <p class="cookie-banner__text">
+      Мы используем cookie для работы сайта и аналитики согласно {}
+      <a
+        href="/privacy"
+        class="cookie-banner__link"
+        target="_blank"
+        rel="noreferrer"
+      >
+        политике конфиденциальности
+      </a> {}
+      и {}
+      <a
+        href="/consent"
+        class="cookie-banner__link"
+        target="_blank"
+        rel="noreferrer"
+      >
+        согласию на обработку данных
+      </a>
+      .
+    </p>
+
+    <div id="cookie-settings-panel" class="cookie-settings" hidden>
+      <label class="cookie-option__label">
+        <input type="checkbox" checked disabled class="cookie-option__input" />
+        <span class="cookie-option__info">
+          <strong>Обязательные (Технические)</strong>
+          <small>
+            Необходимы для работы сайта, бронирования и безопасности
+          </small>
+        </span>
+      </label>
+
+      <label class="cookie-option__label">
+        <input
+          type="checkbox"
+          id="cookie-analytics-check"
+          class="cookie-option__input"
+        />
+        <span class="cookie-option__info">
+          <strong>Аналитические</strong>
+          <small>Для анализа посещаемости и удобства</small>
+        </span>
+      </label>
+    </div>
+
+    <div class="cookie-banner__actions">
+      <button type="button" class="cookie-btn" id="cookie-accept-all">
+        Принять все
+      </button>
+      <button
+        type="button"
+        class="cookie-btn cookie-btn--reject"
+        id="cookie-reject-all"
+      >
+        Отклонить
+      </button>
+      <button
+        type="button"
+        class="cookie-btn cookie-btn--save"
+        id="cookie-save-settings"
+        style="display: none"
+      >
+        Сохранить
+      </button>
+      <button
+        type="button"
+        class="cookie-banner__settings-toggle"
+        id="cookie-toggle-settings"
+        aria-expanded="false"
+        aria-controls="cookie-settings-panel"
+      >
+        Настройки
+      </button>
+    </div>
+  </div>
+</aside>
+
+<style>
+  :root {
+    --color-cookie: #2F0391;
+    --color-cookie-hover: #4811bf;
+  }
+
+  .cookie-banner {
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    z-index: 9999;
+    max-width: 360px;
+    width: calc(100% - 40px);
+    font-family: inherit;
+    animation: cookieSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  @keyframes cookieSlideUp {
+    from {
+      opacity: 0;
+      transform: translateY(16px) scale(0.97);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0) scale(1);
+    }
+  }
+
+  .cookie-banner__card {
+    background-color: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    padding: 14px 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    color: #1e293b;
+    box-shadow:
+      0 10px 25px -5px rgba(0, 0, 0, 0.15),
+      0 8px 10px -6px rgba(0, 0, 0, 0.1);
+  }
+
+  .cookie-banner__header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .cookie-banner__title-row {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+  }
+
+  .cookie-banner__icon {
+    color: var(--color-cookie);
+    flex-shrink: 0;
+  }
+
+  .cookie-banner__title {
+    font-size: 0.92rem;
+    font-weight: 700;
+    margin: 0;
+    line-height: 1;
+    color: #0f172a;
+  }
+
+  .cookie-banner__text {
+    font-size: 0.8rem;
+    line-height: 1.4;
+    color: #475569;
+    margin: 0;
+  }
+
+  .cookie-banner__link {
+    color: var(--color-cookie);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+    font-weight: 600;
+    transition: color 0.15s ease;
+  }
+
+  .cookie-banner__link:hover {
+    color: var(--color-cookie-hover);
+  }
+
+  .cookie-settings {
+    margin-top: 2px;
+    padding: 10px 12px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .cookie-settings[hidden] {
+    display: none !important;
+  }
+
+  .cookie-option__label {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  .cookie-option__input {
+    accent-color: var(--color-cookie);
+    width: 15px;
+    height: 15px;
+    margin-top: 2px;
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+
+  .cookie-option__input:disabled {
+    cursor: not-allowed;
+    opacity: 0.7;
+  }
+
+  .cookie-option__info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .cookie-option__info strong {
+    font-size: 0.78rem;
+    color: #0f172a;
+  }
+
+  .cookie-option__info small {
+    font-size: 0.7rem;
+    color: #64748b;
+    line-height: 1.25;
+  }
+
+  .cookie-banner__actions {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 8px;
+    padding-top: 2px;
+  }
+
+  .cookie-btn {
+    border-radius: 6px;
+    font-size: 12px;
+    padding: 8px 14px;
+    min-height: 34px;
+    border: none;
+    background-color: var(--color-cookie);
+    color: #fff;
+    cursor: pointer;
+    transition:
+      background-color 0.2s ease,
+      transform 0.1s ease;
+  }
+
+  .cookie-btn:hover {
+    background-color: var(--color-cookie-hover);
+  }
+
+  .cookie-btn:active {
+    transform: scale(0.98);
+  }
+
+  .cookie-btn:focus-visible {
+    outline: 2px solid var(--color-cookie);
+    outline-offset: 2px;
+  }
+
+  .cookie-btn--reject {
+    background-color: transparent;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+  }
+
+  .cookie-btn--reject:hover {
+    background-color: #f1f5f9;
+    color: #0f172a;
+  }
+
+  .cookie-banner__settings-toggle {
+    background: none;
+    border: none;
+    color: #64748b;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 6px 8px;
+    text-decoration: underline;
+    margin-left: auto;
+    transition: color 0.3s ease;
+  }
+
+  .cookie-banner__settings-toggle:hover {
+    color: #0f172a;
+  }
+
+  .cookie-banner__settings-toggle:focus-visible {
+    outline: 2px solid var(--color-cookie);
+    outline-offset: 2px;
+  }
+</style>
+
+<script is:inline>
+  (() => {
+    "use strict";
+
+    const CONSENT_KEY = "cookie_consent_v1";
+    const SIX_MONTHS_DAYS = 180; // ~6 months
+    const SIX_MONTHS_MS = SIX_MONTHS_DAYS * 24 * 60 * 60 * 1000;
+
+    let lastFocusedElement = null;
+
+    /**
+     * Reads stored cookie consent from localStorage and validates 6-month expiration
+     * @returns {{ technical: boolean, analytics: boolean, status: string, updatedAt: string } | null}
+     */
+    function readStoredConsent() {
+      try {
+        const raw = localStorage.getItem(CONSENT_KEY);
+        if (!raw) return null;
+        const parsed = JSON.parse(raw);
+        if (typeof parsed === "object" && parsed !== null) {
+          // Expiration check: if consent is older than 6 months (180 days), expire it
+          if (parsed.updatedAt) {
+            const timestamp = new Date(parsed.updatedAt).getTime();
+            const now = Date.now();
+            if (isNaN(timestamp) || now - timestamp > SIX_MONTHS_MS) {
+              localStorage.removeItem(CONSENT_KEY);
+              return null;
+            }
+          }
+          return parsed;
+        }
+        return null;
+      } catch {
+        return null;
+      }
+    }
+
+    /**
+     * Helper function for external scripts to verify if analytics consent is granted
+     */
+    window.hasAnalyticsConsent = function () {
+      const consent = readStoredConsent();
+      return Boolean(consent && consent.analytics === true);
+    };
+
+    /**
+     * Cleans up analytical/tracking cookies from document.cookie
+     */
+    function clearAnalyticsCookies() {
+      try {
+        const analyticalPrefixes = [
+          "_ym_",
+          "_ga",
+          "_gid",
+          "_gat",
+          "tmr_",
+          "_cl",
+          "_fbp",
+        ];
+        const exactNames = [
+          "_ym_uid",
+          "_ym_d",
+          "_ym_isad",
+          "_ym_visorc",
+          "_ga",
+          "_gid",
+          "_gat",
+          "_gat_gtag",
+          "tmr_lvid",
+          "tmr_lvidTS",
+          "tmr_reqNum",
+        ];
+
+        const cookies = document.cookie ? document.cookie.split(";") : [];
+        const host = window.location.hostname;
+        const domainParts = host.split(".");
+
+        cookies.forEach((cookieStr) => {
+          const eqPos = cookieStr.indexOf("=");
+          const name = (
+            eqPos > -1 ? cookieStr.substr(0, eqPos) : cookieStr
+          ).trim();
+          if (!name) return;
+
+          const isAnalytical =
+            exactNames.includes(name) ||
+            analyticalPrefixes.some((prefix) => name.startsWith(prefix));
+
+          if (isAnalytical) {
+            // Remove cookie for current path and root
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;`;
+            document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${host};`;
+
+            if (domainParts.length >= 2) {
+              const rootDomain = "." + domainParts.slice(-2).join(".");
+              document.cookie = `${name}=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/; domain=${rootDomain};`;
+            }
+          }
+        });
+      } catch {
+        // Ignore cookie deletion errors
+      }
+    }
+
+    function initCookieBanner() {
+      const banner = document.getElementById("cookie-banner");
+      if (!banner) return;
+
+      const acceptAllBtn = document.getElementById("cookie-accept-all");
+      const rejectAllBtn = document.getElementById("cookie-reject-all");
+      const saveSettingsBtn = document.getElementById("cookie-save-settings");
+      const toggleSettingsBtn = document.getElementById(
+        "cookie-toggle-settings",
+      );
+      const settingsPanel = document.getElementById("cookie-settings-panel");
+      const analyticsCheck = document.getElementById("cookie-analytics-check");
+
+      // 1. Initial State Check
+      const savedConsent = readStoredConsent();
+
+      // Sync initial checkbox state: default to false (opt-in compliance) unless explicitly consented
+      if (analyticsCheck) {
+        analyticsCheck.checked = Boolean(
+          savedConsent && savedConsent.analytics === true,
+        );
+      }
+
+      // Show banner only if user has not yet made a choice
+      if (!savedConsent) {
+        banner.style.display = "block";
+      } else {
+        banner.style.display = "none";
+      }
+
+      // 2. Save Choice Function
+      function saveChoice(analyticsAllowed, status) {
+        const allowed = Boolean(analyticsAllowed);
+
+        // Immediately synchronize UI checkbox
+        if (analyticsCheck) {
+          analyticsCheck.checked = allowed;
+        }
+
+        const choice = {
+          technical: true,
+          analytics: allowed,
+          status: status || (allowed ? "accepted" : "rejected"),
+          updatedAt: new Date().toISOString(),
+        };
+
+        try {
+          localStorage.setItem(CONSENT_KEY, JSON.stringify(choice));
+        } catch {
+          // storage quota or blocked
+        }
+
+        // If analytics is rejected/disabled, clean up any tracking cookies
+        if (!allowed) {
+          clearAnalyticsCookies();
+        }
+
+        // Hide banner and close settings panel
+        banner.style.display = "none";
+        if (settingsPanel) {
+          settingsPanel.setAttribute("hidden", "");
+        }
+        if (toggleSettingsBtn) {
+          toggleSettingsBtn.textContent = "Настройки";
+          toggleSettingsBtn.setAttribute("aria-expanded", "false");
+        }
+        if (saveSettingsBtn) {
+          saveSettingsBtn.style.display = "none";
+        }
+
+        // Restore focus to original trigger element (a11y)
+        if (
+          lastFocusedElement &&
+          typeof lastFocusedElement.focus === "function"
+        ) {
+          lastFocusedElement.focus();
+          lastFocusedElement = null;
+        }
+
+        // Notify other scripts and analytics systems
+        window.dispatchEvent(
+          new CustomEvent("cookieConsentUpdated", { detail: choice }),
+        );
+      }
+
+      // 3. Button Event Listeners
+      acceptAllBtn?.addEventListener("click", () =>
+        saveChoice(true, "accepted"),
+      );
+
+      rejectAllBtn?.addEventListener("click", () =>
+        saveChoice(false, "rejected"),
+      );
+
+      saveSettingsBtn?.addEventListener("click", () => {
+        const isChecked = analyticsCheck ? analyticsCheck.checked : false;
+        saveChoice(
+          isChecked,
+          isChecked ? "custom_accepted" : "custom_rejected",
+        );
+      });
+
+      toggleSettingsBtn?.addEventListener("click", () => {
+        if (!settingsPanel) return;
+        const isHidden = settingsPanel.hasAttribute("hidden");
+
+        if (isHidden) {
+          // Sync checkbox with current stored state before showing
+          const current = readStoredConsent();
+          if (analyticsCheck) {
+            analyticsCheck.checked = Boolean(
+              current && current.analytics === true,
+            );
+          }
+          settingsPanel.removeAttribute("hidden");
+          toggleSettingsBtn.textContent = "Скрыть";
+          toggleSettingsBtn.setAttribute("aria-expanded", "true");
+          if (saveSettingsBtn) saveSettingsBtn.style.display = "inline-block";
+          analyticsCheck?.focus();
+        } else {
+          settingsPanel.setAttribute("hidden", "");
+          toggleSettingsBtn.textContent = "Настройки";
+          toggleSettingsBtn.setAttribute("aria-expanded", "false");
+          if (saveSettingsBtn) saveSettingsBtn.style.display = "none";
+        }
+      });
+
+      // 4. Re-open from footer link: <button data-open-cookie-settings>Настройки cookie</button>
+      document.addEventListener("click", (e) => {
+        const trigger =
+          e.target &&
+          e.target.closest &&
+          (e.target.closest("[data-open-cookie-settings]") ||
+            e.target.closest("#open-cookie-settings"));
+        if (!trigger) return;
+        e.preventDefault();
+
+        lastFocusedElement = trigger;
+
+        const currentConsent = readStoredConsent();
+        if (analyticsCheck) {
+          // Ensure checkbox reflects current user consent
+          analyticsCheck.checked = Boolean(
+            currentConsent && currentConsent.analytics === true,
+          );
+        }
+
+        banner.style.display = "block";
+        if (settingsPanel) {
+          settingsPanel.setAttribute("hidden", "");
+        }
+        if (saveSettingsBtn) {
+          saveSettingsBtn.style.display = "none";
+        }
+        if (toggleSettingsBtn) {
+          toggleSettingsBtn.textContent = "Настройки";
+          toggleSettingsBtn.setAttribute("aria-expanded", "false");
+        }
+
+        // Accessibility focus transfer
+        setTimeout(() => {
+          if (analyticsCheck) {
+            acceptAllBtn.focus();
+          } else {
+            banner.focus();
+          }
+        }, 50);
+      });
+
+      // 5. Keyboard Accessibility: Close on Escape key if banner is open
+      document.addEventListener("keydown", (e) => {
+        if (e.key === "Escape" && banner.style.display === "block") {
+          // If user previously made a choice, dismiss the modal without altering saved state
+          const hasPriorChoice = readStoredConsent();
+          if (hasPriorChoice) {
+            banner.style.display = "none";
+            if (settingsPanel) settingsPanel.setAttribute("hidden", "");
+            if (
+              lastFocusedElement &&
+              typeof lastFocusedElement.focus === "function"
+            ) {
+              lastFocusedElement.focus();
+              lastFocusedElement = null;
+            }
+          }
+        }
+      });
+    }
+
+    if (document.readyState === "loading") {
+      document.addEventListener("DOMContentLoaded", initCookieBanner);
+    } else {
+      initCookieBanner();
+    }
+  })();
+</script>

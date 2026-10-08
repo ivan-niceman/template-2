@@ -1,0 +1,62 @@
+---
+---
+
+<section class="cruises" id="cruises">
+  <link rel="stylesheet" href="https://widget.gocruise.ru/css/app.css" />
+  <div class="container">
+    <h2 class="title cruises-title">Поиск круиза</h2>
+    <div class="cruises__widget">
+      <div id="ces"></div>
+      <script is:inline>
+        window.cesSettings = {
+          email: 'client@example.ru',
+          currencies: ['EUR', 'RUB'],
+        };
+      </script>
+      <script is:inline src="https://widget.gocruise.ru/js/app.js"></script>
+    </div>
+  </div>
+</section>
+
+<style>
+  .cruises {
+    margin-top: 100px;
+    padding-bottom: 100px;
+    background: linear-gradient(135deg, #173a3c 0%, #81bcb8 100%);
+  }
+
+  @media (max-width: 768px) {
+    .cruises {
+      margin-top: 50px;
+    }
+  }
+
+  .cruises .container {
+    padding: 0 15px;
+  }
+
+  .cruises-title {
+    background: url('/src/assets/images/corner.svg') 0px -3px no-repeat;
+    background-size: 100% 100%;
+    margin-inline: auto;
+    max-width: 300px;
+    width: 100%;
+    color: #000;
+    padding-bottom: 27px;
+  }
+
+  @media (max-width: 425px) {
+    .cruises-title {
+      max-width: 250px;
+      padding-bottom: 23px;
+    }
+    .cruises .container {
+    padding: 0;
+  }
+  }
+
+  .cruises__widget {
+    margin-top: 50px;
+    min-height: 200px;
+  }
+</style>

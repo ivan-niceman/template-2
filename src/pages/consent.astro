@@ -1,0 +1,209 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import FloatingMessengers from '../components/FloatingMessengers.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+---
+
+<Layout
+  title="Согласие на обработку персональных данных"
+  description="Текст согласия на обработку персональных данных в соответствии со статьей 9 Федерального закона РФ № 152-ФЗ."
+>
+  <Header />
+  <main class="legal-page-main">
+    <div class="container legal-container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a>
+        <span>/</span>
+        <span class="current">Согласие на обработку персональных данных</span>
+      </nav>
+
+      <article class="legal-content">
+        <h1 class="legal-title">Согласие на обработку персональных данных</h1>
+
+        <section class="legal-section">
+          <p>
+            Настоящим я, действуя свободно, своей волей и в своем интересе, а также подтверждая свою дееспособность,
+            даю согласие «Компании» (далее — «Оператор», ИНН [ИНН], ОГРН [ОГРН],
+            адрес: [адрес]) на обработку моих персональных данных на следующих условиях:
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>1. Перечень персональных данных, на обработку которых дается согласие</h2>
+          <ul>
+            <li>Фамилия, имя, отчество;</li>
+            <li>Контактный номер телефона;</li>
+            <li>Адрес электронной почты (E-mail);</li>
+            <li>Сведения, указанные в поле «Комментарий» (пожелания к направлению поездки, датам тура, количеству туристов);</li>
+            <li>
+              Пользовательские данные (файлы cookie, тип браузера и операционной системы, источник перехода на сайт,
+              IP-адрес, географическое положение).
+            </li>
+          </ul>
+        </section>
+
+        <section class="legal-section">
+          <h2>2. Цели обработки персональных данных</h2>
+          <p>
+            Обработка персональных данных осуществляется исключительно в целях:
+          </p>
+          <ul>
+            <li>Консультации и подбора туристского продукта, круиза, экскурсионной программы или авиабилетов;</li>
+            <li>Обратной связи, обработки входящих заявок, звонков и запросов, поступивших с сайта;</li>
+            <li>Формирования предварительного бронирования отелей, билетов, трансферов и страховых полисов;</li>
+            <li>Улучшения качества обслуживания и взаимодействия с посетителями сайта;</li>
+            <li>Направления информационных сообщений об акциях, скидках и специальных предложениях (по желанию клиента).</li>
+          </ul>
+        </section>
+
+        <section class="legal-section">
+          <h2>3. Перечень действий с персональными данными</h2>
+          <p>
+            Согласие дается на совершение следующих действий с персональными данными с использованием средств
+            автоматизации и/или без использования таких средств: сбор, запись, систематизация, накопление, хранение,
+            уточнение (обновление, изменение), извлечение, использование, передача (предоставление, доступ)
+            партнерам-туроператорам, авиакомпаниям, гостиничным объектам для реализации целей бронирования,
+            обезличивание, блокирование, удаление, уничтожение персональных данных.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>4. Срок действия согласия и порядок его отзыва</h2>
+          <p>
+            Настоящее согласие действует с момента его предоставления (путем нажатия кнопки «Отправить» или иной
+            кнопки отправки формы на сайте) и действует до момента достижения целей обработки или до момента отзыва
+            согласия.
+          </p>
+          <p>
+            Согласие может быть отозвано субъектом персональных данных в любой момент путем направления письменного
+            заявления Оператору по адресу электронной почты либо по почтовому адресу Оператора.
+          </p>
+        </section>
+
+        <section class="legal-section">
+          <h2>5. Подтверждение пользователя</h2>
+          <div class="legal-box">
+            <p>
+              Заполняя и отправляя форму на сайте, я подтверждаю, что ознакомлен(а) с { }
+              <a href="/privacy">Политикой конфиденциальности</a> Оператора, согласен(на) со всеми её положениями и
+              даю согласие на обработку персональных данных добровольно и осознанно.
+            </p>
+          </div>
+        </section>
+      </article>
+    </div>
+  </main>
+  <Footer />
+  <FloatingMessengers />
+  <ScrollToTop />
+  <CookieBanner />
+</Layout>
+
+<style>
+  .legal-page-main {
+    padding: 40px 0 80px;
+    background-color: #F8FAFC;
+    flex: 1;
+  }
+
+  .legal-container {
+    max-width: 960px;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    gap: 10px;
+    font-size: 14px;
+    color: #64748B;
+    margin-bottom: 30px;
+  }
+
+  .breadcrumbs a {
+    color: var(--color-btn);
+    text-decoration: underline;
+  }
+
+  .breadcrumbs .current {
+    color: #0F172A;
+    font-weight: 600;
+  }
+
+  .legal-content {
+    background-color: #FFFFFF;
+    padding: 50px 45px;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border: 1px solid #E2E8F0;
+  }
+
+  @media (max-width: 600px) {
+    .legal-content {
+      padding: 30px 20px;
+    }
+  }
+
+  .legal-title {
+    font-size: 32px;
+    font-weight: 800;
+    color: #0F172A;
+    line-height: 1.25;
+    margin-bottom: 8px;
+  }
+
+  @media (max-width: 600px) {
+    .legal-title {
+      font-size: 24px;
+    }
+  }
+
+  .legal-section {
+    margin-bottom: 30px;
+  }
+
+  .legal-section h2 {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--color-btn);
+    margin-bottom: 14px;
+  }
+
+  .legal-section p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: #334155;
+    margin-bottom: 12px;
+  }
+
+  .legal-section ul {
+    list-style-type: disc;
+    padding-left: 25px;
+    margin-bottom: 15px;
+  }
+
+  .legal-section li {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #334155;
+    margin-bottom: 8px;
+  }
+
+  .legal-box {
+    background: #F1F5F9;
+    padding: 20px;
+    border-radius: 8px;
+    border-left: 4px solid var(--color-btn);
+  }
+
+  .legal-box p {
+    margin-bottom: 0;
+  }
+
+  .legal-box a {
+    color: var(--color-btn);
+    font-weight: 600;
+    text-decoration: underline;
+  }
+</style>

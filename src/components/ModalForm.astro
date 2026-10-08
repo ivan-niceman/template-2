@@ -1,0 +1,234 @@
+---
+---
+
+<div class="form-content" id="popup-modal" role="dialog" aria-modal="true" aria-labelledby="modal-form-title">
+  <span class="form-content__background" aria-hidden="true"></span>
+  <button type="button" class="close-popup" id="modal-close-btn" aria-label="Закрыть окно">
+    <span></span>
+    <span></span>
+  </button>
+
+  <div class="container">
+    <div class="form-block">
+      <h3 class="form-title" id="modal-form-title">Обратный звонок</h3>
+      <form method="POST" class="form modal-form" id="popup-lead-form" action="/api/lead" novalidate>
+        <input type="hidden" name="title" id="modal-hidden-title" value="Обратный звонок" />
+        <input type="hidden" name="_t" class="form-timestamp" value="" />
+        <!-- Anti-spam Honeypot: invisible to users, traps automated bots -->
+        <div style="display:none !important; position:absolute; left:-9999px;" aria-hidden="true">
+          <label for="modal-hp-website">Не заполняйте это поле</label>
+          <input id="modal-hp-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="form-field">
+          <input
+            id="modal-input-name"
+            type="text"
+            name="name"
+            placeholder=" "
+            autocomplete="name"
+            aria-describedby="modal-name-error"
+            required
+          />
+          <label for="modal-input-name" class="floating-label">Ваше имя</label>
+          <span class="form-field__error" id="modal-name-error" role="alert"></span>
+        </div>
+
+        <div class="form-field">
+          <input
+            id="modal-input-tel"
+            type="tel"
+            name="tel"
+            placeholder=" "
+            autocomplete="tel"
+            aria-describedby="modal-tel-error"
+            required
+          />
+          <label for="modal-input-tel" class="floating-label">Телефон</label>
+          <span class="form-field__error" id="modal-tel-error" role="alert"></span>
+        </div>
+
+        <div class="form-field">
+          <input
+            id="modal-input-email"
+            type="email"
+            name="email"
+            placeholder=" "
+            autocomplete="email"
+            aria-describedby="modal-email-error"
+            required
+          />
+          <label for="modal-input-email" class="floating-label">Электронная почта</label>
+          <span class="form-field__error" id="modal-email-error" role="alert"></span>
+        </div>
+
+        <div class="form-field">
+          <textarea
+            id="modal-input-message"
+            name="message"
+            class="popup__send-text"
+            placeholder=" "
+            rows="3"
+            aria-describedby="modal-message-error"
+            required
+          ></textarea>
+          <label for="modal-input-message" class="floating-label">Комментарий к заявке</label>
+          <span class="form-field__error" id="modal-message-error" role="alert"></span>
+        </div>
+
+        <div class="popup-send-form-block send-form-block">
+          <button type="submit" class="form__btn">Отправить</button>
+          <p class="form__paragraph">
+            Нажимая на кнопку, вы даете согласие, что ознакомлены с {}
+            <a href="/privacy" class="privacy" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a> { }
+            и <a href="/consent" class="privacy" target="_blank" rel="noopener noreferrer">обработкой данных</a>
+          </p>
+        </div>
+      </form>
+      <span class="corner-border"></span>
+      <span class="corner-border"></span>
+      <span class="corner-border"></span>
+      <span class="corner-border"></span>
+    </div>
+  </div>
+</div>
+
+<style>
+  .form-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    inset: 0;
+    transform: translateY(-100%);
+    background-color: #FFFFFF;
+    z-index: 200;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+    overflow-y: auto;
+    padding: 40px 15px;
+  }
+
+  .form-content.form_active {
+    transform: translateY(0%);
+  }
+
+  .form-content .container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+  }
+
+  .form-content__background {
+    background-color: var(--color-btn-hover);
+    position: absolute;
+    left: 0;
+    top: 0;
+    right: 0;
+    height: 50%;
+    z-index: -1;
+  }
+
+  .close-popup {
+    position: absolute;
+    top: 30px;
+    right: 30px;
+    border: none;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background: transparent;
+    z-index: 210;
+  }
+
+  .form-content.form_active .close-popup {
+    animation: buttonRotate 0.8s ease;
+  }
+
+  @keyframes buttonRotate {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
+  @media (max-width: 500px) {
+    .close-popup {
+      top: 20px;
+      right: 20px;
+    }
+  }
+
+  .close-popup > span {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    background-color: var(--color-btn);
+    height: 3px;
+    width: 100%;
+  }
+
+  .close-popup > span:first-of-type {
+    transform: rotate(45deg);
+  }
+
+  .close-popup > span:last-of-type {
+    transform: rotate(-45deg);
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
+<script>
+  function initModalForm() {
+    const popupContent = document.getElementById('popup-modal');
+    const closeBtn = document.getElementById('modal-close-btn');
+    const formTitle = document.getElementById('modal-form-title');
+    const hiddenTitle = document.getElementById('modal-hidden-title') as HTMLInputElement | null;
+    const modalTimestamp = popupContent?.querySelector('.form-timestamp') as HTMLInputElement | null;
+
+    if (!popupContent || !closeBtn) return;
+
+    function openModal(title: string) {
+      if (formTitle) formTitle.textContent = title || 'Обратный звонок';
+      if (hiddenTitle) hiddenTitle.value = title || 'Обратный звонок';
+      if (modalTimestamp) modalTimestamp.value = String(Date.now());
+      popupContent?.classList.add('form_active');
+      document.body.classList.add('body-hidden');
+    }
+
+    function closeModal() {
+      popupContent?.classList.remove('form_active');
+      document.body.classList.remove('body-hidden');
+    }
+
+    document.querySelectorAll('[data-content-title], [data-title]').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tTitle = btn.getAttribute('data-title') || btn.getAttribute('data-content-title') || 'Обратный звонок';
+        openModal(tTitle);
+      });
+    });
+
+    closeBtn.addEventListener('click', closeModal);
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && popupContent?.classList.contains('form_active')) {
+        closeModal();
+      }
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initModalForm);
+  } else {
+    initModalForm();
+  }
+</script>

@@ -1,0 +1,89 @@
+---
+---
+
+<button
+  type="button"
+  class="upward"
+  id="scroll-to-top-btn"
+  aria-label="Прокрутить наверх"
+  title="Наверх"
+>
+</button>
+
+<style>
+  .upward {
+    display: none;
+    position: fixed;
+    right: 20px;
+    bottom: 30px;
+    background: #FFFFFF url('/src/assets/images/up.svg') center no-repeat;
+    background-size: 24px;
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--color-btn);
+    border-radius: 50%;
+    padding: 10px;
+    z-index: 75;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    transition: transform 0.25s ease;
+  }
+
+  .upward:hover {
+    transform: translateY(-2px);
+  }
+
+
+  @media (max-width: 500px) {
+    .upward {
+      right: 12px;
+      bottom: 20px;
+      width: 44px;
+      height: 44px;
+      background-size: 20px;
+    }
+  }
+</style>
+
+<script>
+  function initScrollToTop() {
+    const scrollToTopBtn = document.querySelector<HTMLButtonElement>('#scroll-to-top-btn');
+    const footer = document.querySelector('footer');
+
+    if (!scrollToTopBtn) return;
+
+    function handleScroll() {
+      if (!scrollToTopBtn) return;
+
+      if (window.scrollY > 600) {
+        scrollToTopBtn.style.display = 'block';
+      } else {
+        scrollToTopBtn.style.display = 'none';
+      }
+
+      if (footer) {
+        const footerRect = footer.getBoundingClientRect();
+        if (footerRect.top <= window.innerHeight) {
+          scrollToTopBtn.style.bottom = `${window.innerHeight - footerRect.top + 15}px`;
+        } else {
+          scrollToTopBtn.style.bottom = '30px';
+        }
+      }
+    }
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+
+    scrollToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initScrollToTop);
+  } else {
+    initScrollToTop();
+  }
+</script>

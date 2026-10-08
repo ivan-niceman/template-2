@@ -1,0 +1,116 @@
+---
+import { Image } from 'astro:assets';
+import anexTourImg from '../assets/images/partners/anex-tour.png';
+import intouristImg from '../assets/images/partners/Intourist.png';
+import coralImg from '../assets/images/partners/coral.png';
+import sunmarImg from '../assets/images/partners/Sunmar.png';
+import pegasImg from '../assets/images/partners/pegas.png';
+import aleanImg from '../assets/images/partners/alean.png';
+import funsunImg from '../assets/images/partners/funsun.png';
+
+const partners = [
+  { name: 'Анекс Тур', logo: anexTourImg },
+  { name: 'Интурист', logo: intouristImg },
+  { name: 'Корал Тревел', logo: coralImg },
+  { name: 'Санмар', logo: sunmarImg },
+  { name: 'Пегас Туристик', logo: pegasImg },
+  { name: 'Алеан', logo: aleanImg },
+  { name: 'Фан Сан', logo: funsunImg },
+];
+---
+
+<section class="partners container" aria-label="Наши надежные партнеры">
+  <div class="marque" data-direction="left" data-animated="true">
+    <ul class="marque-list">
+      {partners.map((partner) => (
+        <li class="marque-item">
+          <Image
+            src={partner.logo}
+            alt={partner.name}
+            width="135"
+            height="80"
+            loading="lazy"
+          />
+        </li>
+      ))}
+      <!-- Duplicated for infinite seamless animation loop without JS duplication lag -->
+      {partners.map((partner) => (
+        <li class="marque-item" aria-hidden="true">
+          <Image
+            src={partner.logo}
+            alt=""
+            width="135"
+            height="80"
+            loading="lazy"
+          />
+        </li>
+      ))}
+    </ul>
+  </div>
+</section>
+
+<style>
+  .partners {
+    margin-top: 100px;
+    padding-bottom: 20px;
+  }
+
+  @media (max-width: 768px) {
+    .partners {
+      margin-top: 50px;
+    }
+  }
+
+  .marque {
+    overflow: hidden;
+    mask: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+    -webkit-mask: linear-gradient(90deg, transparent, #000 5%, #000 95%, transparent);
+  }
+
+  .marque-list {
+    display: flex;
+    align-items: center;
+    column-gap: 70px;
+    width: max-content;
+    flex-wrap: nowrap;
+    animation: marqueLoop 28s linear infinite;
+  }
+
+  .marque-item {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .marque-item img {
+    width: 140px;
+    height: 70px;
+    object-fit: contain;
+    filter: grayscale(15%);
+    transition: filter 0.3s ease, transform 0.3s ease;
+  }
+
+  .marque-item img:hover {
+    filter: grayscale(0%);
+    transform: scale(1.05);
+  }
+
+  @keyframes marqueLoop {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(calc(-50% - 35px));
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .marque-list {
+      animation: none;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+    }
+  }
+</style>

@@ -1,0 +1,150 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title?: string;
+  description?: string;
+  canonical?: string;
+  ogImage?: string;
+  noindex?: boolean;
+}
+
+const {
+  title = "Горящие туры и круизы по России и всему земному шару | template-2",
+  description = "Лечение в санаториях, отдых на море, активные и экскурсионные поездки, круизы — все для вас! Быстрый и бесплатный подбор тура по лучшим ценам.",
+  canonical = Astro.url.href,
+  ogImage = "/og-image.jpg",
+  noindex = false
+} = Astro.props;
+
+const siteUrl = Astro.site ? Astro.site.href : "https://template-2.ru";
+const absoluteOgImage = new URL(ogImage, siteUrl).href;
+
+const schemaData = {
+  "@context": "https://schema.org",
+  "@type": "TravelAgency",
+  "name": "template-2 Турагентство",
+  "description": description,
+  "url": canonical,
+  "telephone": "+74957773341",
+  "priceRange": "$$",
+  "image": absoluteOgImage,
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "ул. Ленина 19, офис 301",
+    "addressLocality": "Москва",
+    "addressCountry": "RU"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "09:00",
+      "closes": "19:00"
+    }
+  ],
+  "sameAs": [
+    "https://t.me",
+    "https://vk.com"
+  ]
+};
+---
+
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex, nofollow" />}
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={absoluteOgImage} />
+    <meta property="og:locale" content="ru_RU" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:url" content={canonical} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteOgImage} />
+
+    <!-- Performance & Font Preconnections -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap"
+      media="print"
+      onload="this.media='all'"
+    />
+    <noscript>
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Roboto:wght@400;500;700&display=swap"
+      />
+    </noscript>
+
+    <!-- Schema.org Structured Data -->
+    <script type="application/ld+json" set:html={JSON.stringify(schemaData)} />
+  </head>
+  <body class="page">
+    <slot />
+
+    <!-- Client-side Hash Routing & 404 Interceptor for SPA / widget hashes (e.g. GoCruise #/...) -->
+    <script is:inline>
+      (() => {
+        function validateHashRoute() {
+          if (window.location.pathname === '/404' || window.location.pathname.startsWith('/404')) {
+            return;
+          }
+
+          const hash = window.location.hash;
+          if (!hash || hash === '#' || hash === '#/') return;
+
+          // Check if hash matches an existing anchor element on the page
+          const rawAnchor = hash.startsWith('#') ? hash.slice(1).split('?')[0].split('#')[0] : '';
+          if (rawAnchor && document.getElementById(rawAnchor)) {
+            return;
+          }
+
+          // If hash uses GoCruise SPA routing format '#/...'
+          if (hash.startsWith('#/')) {
+            const cleanRoute = hash.slice(2).split('?')[0].split('#')[0].trim().toLowerCase();
+            if (!cleanRoute) return; // Root hash '#/' or '#/?params'
+
+            const validGoCruisePrefixes = ['search', 'cruise', 'order', 'book', 'filter', 'result', 'cabin', 'ship'];
+            const firstSegment = cleanRoute.split('/')[0];
+
+            if (!validGoCruisePrefixes.includes(firstSegment)) {
+              window.location.href = '/404';
+            }
+          } else if (hash.startsWith('#') && hash.length > 1) {
+            // Non-slash anchor like '#something'
+            const validKnownAnchors = ['search-tour', 'cruises', 'stock', 'services', 'about', 'feedback'];
+            if (!validKnownAnchors.includes(rawAnchor) && !document.getElementById(rawAnchor)) {
+              window.location.href = '/404';
+            }
+          }
+        }
+
+        // Execute immediately
+        validateHashRoute();
+
+        // Check when DOM is fully loaded
+        if (document.readyState === 'loading') {
+          document.addEventListener('DOMContentLoaded', validateHashRoute);
+        }
+
+        // Listen for user entering or changing hash in address bar
+        window.addEventListener('hashchange', validateHashRoute);
+      })();
+    </script>
+  </body>
+</html>

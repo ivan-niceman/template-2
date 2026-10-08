@@ -1,0 +1,6 @@
+{
+  "name": "template-2",
+  "description": "Горящие туры и круизы по России и всему миру. Высокопроизводительный лендинг на Astro 5 + TypeScript со 100% сохранением дизайна, соответствием 152-ФЗ и адаптивной версткой.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

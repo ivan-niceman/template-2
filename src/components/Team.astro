@@ -1,0 +1,158 @@
+---
+import { Image } from 'astro:assets';
+import team1 from '../assets/images/team/team-1.jpeg';
+import team2 from '../assets/images/team/team-2.jpeg';
+import team3 from '../assets/images/team/team-3.jpeg';
+import team4 from '../assets/images/team/team-4.jpeg';
+
+const experts = [
+  {
+    name: 'Евгения Шевченко',
+    role: 'Специалист по Юго-Восточной Азии',
+    image: team1,
+  },
+  {
+    name: 'Наталья Морозова',
+    role: 'Ведущий эксперт по Турции и Египту',
+    image: team2,
+  },
+  {
+    name: 'Анна Кузнецова',
+    role: 'Эксперт по морским и речным круизам',
+    image: team3,
+  },
+  {
+    name: 'Екатерина Смирнова',
+    role: 'Специалист по отдыху в ОАЭ и Мальдивам',
+    image: team4,
+  },
+];
+---
+
+<section class="team container" id="team">
+  <h2 class="title">наши эксперты</h2>
+  <ul class="team__list">
+    {experts.map((expert) => (
+      <li class="team__item">
+        <div class="team__photo">
+          <Image
+            src={expert.image}
+            alt={expert.name}
+            width={300}
+            height={400}
+            format="webp"
+            loading="lazy"
+            class="team__img"
+          />
+          <div class="team__overlay">
+            <h3 class="team__name">{expert.name}</h3>
+            <p class="team__info">{expert.role}</p>
+          </div>
+        </div>
+        <button
+          type="button"
+          class="team__link feedback-btn"
+          data-content-title={`консультация с ${expert.name}`}
+          data-title={`Связаться с ${expert.name}`}
+        >
+          связаться
+        </button>
+      </li>
+    ))}
+  </ul>
+</section>
+
+<style>
+  .team {
+    margin-top: 100px;
+  }
+
+  @media (max-width: 768px) {
+    .team {
+      margin-top: 50px;
+    }
+  }
+
+  .team__list {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 30px;
+  }
+
+  .team__item {
+    max-width: 300px;
+    width: 100%;
+    text-align: center;
+    justify-self: center;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .team__photo {
+    position: relative;
+    height: 400px;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.1);
+  }
+
+  .team__img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+  }
+
+  .team__overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(0deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0.4) 35%, rgba(0, 0, 0, 0) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: left;
+    padding: 0 0 20px 20px;
+    color: #FFFFFF;
+  }
+
+  .team__name {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    text-transform: capitalize;
+  }
+
+  .team__info {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #E2E8F0;
+    line-height: 1.35;
+  }
+
+  .team__link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 15px;
+    padding: 15px;
+    font-size: 16px;
+    font-weight: 700;
+    width: 100%;
+    max-width: 100%;
+    color: #FFFFFF;
+    background-color: var(--color-btn);
+    transition: background-color 0.3s ease, color 0.3s ease;
+    border-radius: 4px;
+  }
+
+  .team__link:hover {
+    background-color: var(--color-btn-hover);
+    color: #000000;
+  }
+
+  .team__link:active {
+    background-color: var(--color-btn-active);
+    color: #FFFFFF;
+  }
+</style>

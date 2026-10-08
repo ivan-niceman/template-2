@@ -1,0 +1,38 @@
+{
+  "name": "template-2",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "lint": "tsc --noEmit",
+    "clean": "rm -rf dist .astro"
+  },
+  "dependencies": {
+    "@astrojs/node": "^11.1.7",
+    "astro": "^7.3.5",
+    "dotenv": "^17.2.3",
+    "nodemailer": "^10.0.15",
+    "sharp": "^0.35.5"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.10",
+    "@types/node": "^22.14.0",
+    "@types/nodemailer": "^8.0.2",
+    "autoprefixer": "^10.6.1",
+    "postcss": "^8.5.29",
+    "typescript": "^5.8.2"
+  },
+  "browserslist": [
+    "> 0.2%",
+    "last 2 versions",
+    "Firefox ESR",
+    "not dead",
+    "Safari >= 12",
+    "iOS >= 12",
+    "Chrome >= 70",
+    "Edge >= 79"
+  ]
+}

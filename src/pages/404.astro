@@ -1,0 +1,173 @@
+---
+import Layout from '../layouts/Layout.astro';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import ModalForm from '../components/ModalForm.astro';
+import ModalSuccess from '../components/ModalSuccess.astro';
+import FloatingMessengers from '../components/FloatingMessengers.astro';
+import ScrollToTop from '../components/ScrollToTop.astro';
+import CookieBanner from '../components/CookieBanner.astro';
+
+// Явный HTTP статус 404 для поисковых систем и браузера
+Astro.response.status = 404;
+Astro.response.statusText = 'Not Found';
+---
+
+<Layout
+  title="Страница не найдена (404) | template-2"
+  description="Запрошенная страница не найдена. Перейдите на главную страницу туристического агентства template-2 для поиска туров и круизов."
+  noindex={true}
+>
+  <Header />
+
+  <main class="error-page">
+    <div class="container error-container">
+      <nav class="breadcrumbs" aria-label="Хлебные крошки">
+        <a href="/">Главная</a>
+        <span>/</span>
+        <span class="current">Ошибка 404</span>
+      </nav>
+
+      <section class="error-card" aria-labelledby="error-title">
+        <div class="error-code-wrap">
+          <span class="error-code">404</span>
+        </div>
+
+        <h1 class="error-title" id="error-title">
+          Похоже, этой страницы больше нет на карте
+        </h1>
+
+        <p class="error-description">
+          Возможно, в адресной строке была допущена опечатка, ссылка устарела или страница была перемещена. 
+          Не переживайте — все лучшие туры, круизы и акции ждут вас на сайте!
+        </p>
+
+        <div class="error-actions">
+          <a href="/" class="feedback-btn error-home-btn">
+            На главную
+          </a>
+        </div>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+
+  <ModalForm />
+  <ModalSuccess />
+  <FloatingMessengers />
+  <ScrollToTop />
+  <CookieBanner />
+</Layout>
+
+<style>
+  .error-page {
+    background: linear-gradient(180deg, #F8FAFC 0%, #FFFFFF 100%);
+    padding: 30px 0 80px;
+    min-height: calc(100vh - 400px);
+    display: flex;
+    flex-direction: column;
+  }
+
+  .error-container {
+    max-width: 960px;
+    margin-inline: auto;
+    width: 100%;
+  }
+
+  .breadcrumbs {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 14px;
+    color: #64748B;
+    margin-bottom: 30px;
+  }
+
+  .breadcrumbs a {
+    color: #0F172A;
+    font-weight: 500;
+    transition: color 0.2s ease;
+  }
+
+  .breadcrumbs a:hover {
+    color: var(--color-btn);
+  }
+
+  .breadcrumbs .current {
+    color: #94A3B8;
+  }
+
+  .error-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 60px 40px;
+    text-align: center;
+    box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.07);
+    position: relative;
+    overflow: hidden;
+  }
+
+  @media (max-width: 600px) {
+    .error-card {
+      padding: 40px 20px;
+    }
+  }
+
+
+  .error-code-wrap {
+    line-height: 1;
+    margin-bottom: 10px;
+    user-select: none;
+  }
+
+  .error-code {
+    font-size: 120px;
+    font-weight: 900;
+    letter-spacing: -4px;
+    background: linear-gradient(135deg, var(--color-btn) 0%, #7C3AED 50%, var(--color-coral) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+  }
+
+  @media (max-width: 600px) {
+    .error-code {
+      font-size: 80px;
+    }
+  }
+
+  .error-title {
+    font-size: 28px;
+    font-weight: 800;
+    color: #0F172A;
+    margin: 0 0 16px;
+    line-height: 1.25;
+  }
+
+  @media (max-width: 600px) {
+    .error-title {
+      font-size: 22px;
+    }
+  }
+
+  .error-description {
+    font-size: 16px;
+    color: #475569;
+    max-width: 620px;
+    margin: 0 auto 35px;
+    line-height: 1.6;
+  }
+
+  .error-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+  }
+
+  .error-home-btn {
+    max-width: 240px;
+  }
+</style>

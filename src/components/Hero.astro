@@ -1,0 +1,236 @@
+---
+import { Image } from 'astro:assets';
+import heroBgImage from '../assets/images/header-background.jpeg';
+---
+
+<div class="hero-wrapper">
+  <!-- Optimized LCP Background Image with eager loading and high priority -->
+  <div class="hero-bg-container" aria-hidden="true">
+    <Image
+      src={heroBgImage}
+      alt="Пляжный отдых на море"
+      width={1920}
+      height={1080}
+      format="webp"
+      quality={85}
+      loading="eager"
+      fetchpriority="high"
+      class="hero-bg-img"
+    />
+    <div class="hero-bg-overlay"></div>
+  </div>
+
+  <section class="about-tours container">
+    <div class="about-tours__info">
+      <h1 class="about-tours__title">
+        горящие туры по россии и всему земному шару!
+      </h1>
+      <p class="about-tours__description">
+        лечение в санаториях, отдых на море, активные и экскурсионные поездки, круизы — все для вас!
+      </p>
+    </div>
+
+    <div class="form-block" id="hero-lead-form">
+      <h2 class="header__form-title">Бесплатный подбор тура</h2>
+      <form method="POST" class="form lead-form" action="/api/lead" novalidate>
+        <input type="hidden" name="title" value="Бесплатный подбор тура" />
+        <input type="hidden" name="_t" class="form-timestamp" value="" />
+        <!-- Anti-spam Honeypot: invisible to users, traps automated bots -->
+        <div style="display:none !important; position:absolute; left:-9999px;" aria-hidden="true">
+          <label for="hero-hp-website">Не заполняйте это поле</label>
+          <input id="hero-hp-website" type="text" name="website" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <div class="form-field">
+          <input
+            id="hero-name"
+            type="text"
+            name="name"
+            placeholder=" "
+            autocomplete="name"
+            aria-describedby="hero-name-error"
+            required
+          />
+          <label for="hero-name" class="floating-label">Ваше имя</label>
+          <span class="form-field__error" id="hero-name-error" role="alert"></span>
+        </div>
+
+        <div class="form-field">
+          <input
+            id="hero-tel"
+            type="tel"
+            name="tel"
+            placeholder=" "
+            autocomplete="tel"
+            aria-describedby="hero-tel-error"
+            required
+          />
+          <label for="hero-tel" class="floating-label">Телефон</label>
+          <span class="form-field__error" id="hero-tel-error" role="alert"></span>
+        </div>
+
+        <div class="form-field">
+          <input
+            id="hero-email"
+            type="email"
+            name="email"
+            placeholder=" "
+            autocomplete="email"
+            aria-describedby="hero-email-error"
+            required
+          />
+          <label for="hero-email" class="floating-label">Электронная почта</label>
+          <span class="form-field__error" id="hero-email-error" role="alert"></span>
+        </div>
+
+        <div class="form-field">
+          <textarea
+            id="hero-message"
+            name="message"
+            class="popup__send-text"
+            placeholder=" "
+            rows="3"
+            aria-describedby="hero-message-error"
+            required
+          ></textarea>
+          <label for="hero-message" class="floating-label">Комментарий к заявке</label>
+          <span class="form-field__error" id="hero-message-error" role="alert"></span>
+        </div>
+
+        <div class="popup-send-form-block send-form-block">
+          <button type="submit" class="form__btn">Отправить</button>
+          <p class="form__paragraph">
+            Нажимая на кнопку, вы даете согласие, что ознакомлены с { }
+            <a href="/privacy" class="privacy" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a> { }
+            и <a href="/consent" class="privacy" target="_blank" rel="noopener noreferrer">обработкой данных</a>
+          </p>
+        </div>
+      </form>
+      <span class="corner-border"></span>
+      <span class="corner-border"></span>
+      <span class="corner-border"></span>
+      <span class="corner-border"></span>
+    </div>
+  </section>
+</div>
+
+<style>
+  .hero-wrapper {
+    position: relative;
+    padding-bottom: 100px;
+    overflow: hidden;
+  }
+
+  @media (max-width: 768px) {
+    .hero-wrapper {
+      padding-bottom: 50px;
+    }
+  }
+
+  .hero-bg-container {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+  }
+
+  .hero-bg-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .hero-bg-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      180deg,
+      rgba(255, 255, 255, 0.15) 0%,
+      rgba(0, 0, 0, 0.35) 60%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+  }
+
+  .about-tours {
+    margin-top: 100px;
+    display: grid;
+    grid-template-columns: 1fr 330px;
+    gap: 50px 30px;
+    align-items: start;
+  }
+
+  .about-tours__info {
+    max-width: 800px;
+    width: 100%;
+  }
+
+  @media (max-width: 1024px) {
+    .about-tours {
+      margin-top: 50px;
+      grid-template-columns: 1fr;
+      justify-items: center;
+    }
+
+    .about-tours__info {
+      max-width: 590px;
+      text-align: center;
+    }
+  }
+
+  .about-tours__title {
+    color: #FFFFFF;
+    font-size: 54px;
+    font-weight: 700;
+    text-transform: uppercase;
+    text-shadow: 0 3px 6px rgba(0, 0, 0, 0.5);
+    line-height: 1.15;
+    text-wrap: balance;
+  }
+
+  .about-tours__description {
+    margin: 35px 0 0;
+    color: #CEDD04;
+    font-size: 24px;
+    font-weight: 600;
+    text-transform: uppercase;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.6);
+    line-height: 1.35;
+  }
+
+  @media (max-width: 1024px) {
+    .about-tours__title {
+      font-size: 38px;
+    }
+
+    .about-tours__description {
+      margin: 25px 0 0;
+      font-size: 18px;
+    }
+  }
+
+  @media (max-width: 500px) {
+    .about-tours__title {
+      font-size: 24px;
+      text-align: center;
+    }
+
+    .about-tours__description {
+      font-size: 14px;
+      max-width: 280px;
+      margin-inline: auto;
+      text-align: center;
+    }
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>

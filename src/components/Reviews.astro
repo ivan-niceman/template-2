@@ -1,0 +1,422 @@
+---
+const reviews = [
+  {
+    name: 'Сергей',
+    date: '27 октября',
+    destination: 'Турция, Кемер 5*',
+    text: 'Летали в Турцию от Натальи, подобрала классный отель, поймали хорошую цену за счет покупки заранее по акции. Отель 5* в Кемере, Barut, питание шикарное, пляж с прозрачной водой, в конце октября было еще тепло.',
+  },
+  {
+    name: 'Ольга',
+    date: '15 августа',
+    destination: 'Мальдивы',
+    text: 'С детства мечтала о незабываемом свадебном путешествии! Обратилась в данную фирму по совету друзей, было решено лететь на Мальдивы! Мне посоветовали совсем недорогой отель 4*, при этом там оказался роскошный риф с рыбками и питание тоже было вкусное, даже алкоголь был включен!',
+  },
+  {
+    name: 'Евгения',
+    date: '20 мая',
+    destination: 'Турция, Бодрум',
+    text: 'Отпуск дали внезапно, мне не хотелось сидеть дома, подумала вдруг есть горящие? Все-таки высокий сезон, сомневалась, но девочки подобрали мне классный тур в Бодрум! Я там и накупалась и натанцевалась!',
+  },
+  {
+    name: 'Дмитрий и Анна',
+    date: '12 сентября',
+    destination: 'Морской круиз MSC',
+    text: 'Бронировали круиз по Средиземноморью. Это наш первый опыт путешествия на лайнере, и восторг не передать словами! Организация на высшем уровне, все документы и визы оформили точно в срок.',
+  },
+];
+---
+
+<section class="feedback container" id="feedback">
+  <h2 class="title">отзывы</h2>
+
+  <div class="feedback__slider-wrapper">
+    <button type="button" class="slider-arrow slider-prev" aria-label="Предыдущий отзыв">
+      <span class="visually-hidden">Назад</span>
+    </button>
+
+    <div class="feedback__slider-viewport" id="feedback-viewport" tabindex="0" aria-label="Слайдер отзывов клиентов">
+      <div class="feedback__slider-track" id="feedback-track">
+        {reviews.map((review) => (
+          <div class="feedback__slide" data-original="true">
+            <div class="feedback__card">
+              <div class="feedback__info">
+                <p class="feedback__name">{review.name}</p>
+                <p class="feedback__date">{review.date}</p>
+              </div>
+              <p class="feedback__destination">{review.destination}</p>
+              <p class="feedback__description">{review.text}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+
+    <button type="button" class="slider-arrow slider-next" aria-label="Следующий отзыв">
+      <span class="visually-hidden">Вперед</span>
+    </button>
+  </div>
+</section>
+
+<style>
+  .feedback {
+    margin-top: 100px;
+    position: relative;
+  }
+
+  @media (max-width: 768px) {
+    .feedback {
+      margin-top: 50px;
+    }
+  }
+
+  .feedback__slider-wrapper {
+    display: flex;
+    align-items: center;
+    position: relative;
+    gap: 15px;
+    margin-top: 20px;
+    width: 100%;
+  }
+
+  @media (max-width: 768px) {
+    .feedback__slider-wrapper {
+      padding-bottom: 60px;
+    }
+  }
+
+  .feedback__slider-viewport {
+    overflow: hidden;
+    width: 100%;
+    padding: 25px 4px;
+    cursor: grab;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: pan-y;
+  }
+
+  .feedback__slider-viewport:active {
+    cursor: grabbing;
+  }
+
+  .feedback__slider-track {
+    display: flex;
+    gap: 25px;
+    will-change: transform;
+    transition: transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+
+  .feedback__slide {
+    flex: 0 0 calc((100% - 50px) / 3);
+    min-width: 280px;
+    box-sizing: border-box;
+  }
+
+  @media (max-width: 1024px) {
+    .feedback__slide {
+      flex: 0 0 calc((100% - 25px) / 2);
+    }
+  }
+
+  @media (max-width: 600px) {
+    .feedback__slide {
+      flex: 0 0 100%;
+      min-width: 100%;
+    }
+  }
+
+  .feedback__card {
+    display: flex;
+    flex-direction: column;
+    outline: 2px solid var(--color-btn-hover);
+    box-shadow: 0px 20px 20px 0px rgba(0, 0, 0, 0.08);
+    background-color: #FFFFFF;
+    padding: 25px 20px;
+    height: 100%;
+    min-height: 220px;
+    border-radius: 6px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .feedback__card:hover {
+    box-shadow: 0px 24px 28px 0px rgba(0, 0, 0, 0.12);
+  }
+
+  .feedback__info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .feedback__name {
+    color: #000000;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  .feedback__date {
+    font-size: 13px;
+    font-weight: 600;
+    color: #64748B;
+  }
+
+  .feedback__destination {
+    font-size: 12px;
+    font-weight: 700;
+    color: var(--color-btn);
+    margin-top: 4px;
+    text-transform: uppercase;
+  }
+
+  .feedback__description {
+    margin-top: 15px;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: 1.55;
+    color: #333333;
+  }
+
+  .slider-arrow {
+    background: url('/src/assets/images/arrow-slide.svg') center / contain no-repeat;
+    max-width: 60px;
+    width: 60px;
+    height: 40px;
+    cursor: pointer;
+    flex-shrink: 0;
+    border: none;
+    transition: transform 0.2s ease, opacity 0.2s ease;
+  }
+
+  .slider-arrow:hover {
+    transform: scale(1.1);
+  }
+
+  .slider-prev {
+    transform: rotate(180deg);
+  }
+
+  .slider-prev:hover {
+    transform: rotate(180deg) scale(1.1);
+  }
+
+  @media (max-width: 768px) {
+    .slider-arrow {
+      position: absolute;
+      bottom: 5px;
+    }
+
+    .slider-prev {
+      left: 20%;
+    }
+
+    .slider-next {
+      right: 20%;
+    }
+  }
+
+  .visually-hidden {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+  }
+</style>
+
+<script>
+  // High-performance infinite loop carousel with touch, swipe, keyboard, and seamless clone wrapping
+  function initReviewsSlider() {
+    const viewport = document.getElementById('feedback-viewport');
+    const track = document.getElementById('feedback-track') as HTMLElement | null;
+    const prevBtn = document.querySelector('.slider-prev') as HTMLButtonElement | null;
+    const nextBtn = document.querySelector('.slider-next') as HTMLButtonElement | null;
+
+    if (!viewport || !track || !prevBtn || !nextBtn) return;
+
+    const originalSlides = Array.from(track.children) as HTMLElement[];
+    const originalCount = originalSlides.length;
+    if (originalCount === 0) return;
+
+    // Clone slides before and after for seamless infinite loop
+    const cloneCount = originalCount; // 4 clones before, 4 clones after
+    
+    // Append clones to end
+    for (let i = 0; i < cloneCount; i++) {
+      const clone = originalSlides[i].cloneNode(true) as HTMLElement;
+      clone.removeAttribute('data-original');
+      clone.setAttribute('aria-hidden', 'true');
+      track.appendChild(clone);
+    }
+
+    // Prepend clones to beginning (in correct order)
+    for (let i = cloneCount - 1; i >= 0; i--) {
+      const clone = originalSlides[i].cloneNode(true) as HTMLElement;
+      clone.removeAttribute('data-original');
+      clone.setAttribute('aria-hidden', 'true');
+      track.insertBefore(clone, track.firstChild);
+    }
+
+    let currentIndex = cloneCount; // Start at the first original slide
+    let isAnimating = false;
+    let isDragging = false;
+    let startX = 0;
+    let currentDeltaX = 0;
+    let startTranslate = 0;
+
+    const GAP = 25;
+
+    function getSlideStep(): number {
+      const firstSlide = track?.firstElementChild as HTMLElement | null;
+      if (!firstSlide) return 300;
+      return firstSlide.offsetWidth + GAP;
+    }
+
+    function getTargetTranslate(index: number): number {
+      const step = getSlideStep();
+      return -(index * step);
+    }
+
+    function setPosition(index: number, animate = true) {
+      if (!track) return;
+      if (animate) {
+        track.style.transition = 'transform 0.45s cubic-bezier(0.16, 1, 0.3, 1)';
+        isAnimating = true;
+      } else {
+        track.style.transition = 'none';
+        isAnimating = false;
+      }
+      const translateVal = getTargetTranslate(index);
+      track.style.transform = `translate3d(${translateVal}px, 0px, 0px)`;
+    }
+
+    // Initialize position without animation
+    setPosition(currentIndex, false);
+
+    function nextSlide() {
+      if (isAnimating) return;
+      currentIndex++;
+      setPosition(currentIndex, true);
+    }
+
+    function prevSlide() {
+      if (isAnimating) return;
+      currentIndex--;
+      setPosition(currentIndex, true);
+    }
+
+    // Seamless loop reset when transition finishes
+    track.addEventListener('transitionend', () => {
+      isAnimating = false;
+      if (currentIndex >= originalCount + cloneCount) {
+        // Reached end clones -> jump back to corresponding original slide
+        currentIndex = currentIndex - originalCount;
+        setPosition(currentIndex, false);
+      } else if (currentIndex < cloneCount) {
+        // Reached start clones -> jump forward to corresponding original slide
+        currentIndex = currentIndex + originalCount;
+        setPosition(currentIndex, false);
+      }
+    });
+
+    nextBtn.addEventListener('click', nextSlide);
+    prevBtn.addEventListener('click', prevSlide);
+
+    // Keyboard navigation
+    viewport.addEventListener('keydown', (e: KeyboardEvent) => {
+      if (e.key === 'ArrowRight') {
+        e.preventDefault();
+        nextSlide();
+      } else if (e.key === 'ArrowLeft') {
+        e.preventDefault();
+        prevSlide();
+      }
+    });
+
+    // Touch and pointer drag gestures
+    function handleDragStart(clientX: number) {
+      if (isAnimating) return;
+      isDragging = true;
+      startX = clientX;
+      currentDeltaX = 0;
+      startTranslate = getTargetTranslate(currentIndex);
+      if (track) {
+        track.style.transition = 'none';
+      }
+    }
+
+    function handleDragMove(clientX: number) {
+      if (!isDragging || !track) return;
+      currentDeltaX = clientX - startX;
+      const newTranslate = startTranslate + currentDeltaX;
+      track.style.transform = `translate3d(${newTranslate}px, 0px, 0px)`;
+    }
+
+    function handleDragEnd() {
+      if (!isDragging) return;
+      isDragging = false;
+      const threshold = 40; // minimum drag distance in px to trigger slide change
+      if (currentDeltaX < -threshold) {
+        nextSlide();
+      } else if (currentDeltaX > threshold) {
+        prevSlide();
+      } else {
+        // Snap back to current slide
+        setPosition(currentIndex, true);
+      }
+      currentDeltaX = 0;
+    }
+
+    // Touch events
+    viewport.addEventListener('touchstart', (e: TouchEvent) => {
+      if (e.touches.length === 1) {
+        handleDragStart(e.touches[0].clientX);
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchmove', (e: TouchEvent) => {
+      if (e.touches.length === 1 && isDragging) {
+        handleDragMove(e.touches[0].clientX);
+      }
+    }, { passive: true });
+
+    viewport.addEventListener('touchend', handleDragEnd);
+    viewport.addEventListener('touchcancel', handleDragEnd);
+
+    // Mouse drag events
+    viewport.addEventListener('mousedown', (e: MouseEvent) => {
+      e.preventDefault();
+      handleDragStart(e.clientX);
+    });
+
+    window.addEventListener('mousemove', (e: MouseEvent) => {
+      if (isDragging) {
+        handleDragMove(e.clientX);
+      }
+    });
+
+    window.addEventListener('mouseup', () => {
+      if (isDragging) {
+        handleDragEnd();
+      }
+    });
+
+    // Handle responsive window resize
+    let resizeTimer: number | undefined;
+    window.addEventListener('resize', () => {
+      clearTimeout(resizeTimer);
+      resizeTimer = window.setTimeout(() => {
+        setPosition(currentIndex, false);
+      }, 100);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initReviewsSlider);
+  } else {
+    initReviewsSlider();
+  }
+</script>
